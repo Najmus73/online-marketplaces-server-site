@@ -31,13 +31,13 @@ async function run() {
     const jobsCollection = client.db('jobsDB').collection('jobs')
     const jobsBid = client.db('jobsDB').collection('bids')
 
-    app.get('/jobs', async(req,res)=>{
+    app.get('/jobs', async (req, res) => {
       const cursor = jobsCollection.find();
       const result = await cursor.toArray();
       res.send(result)
     })
 
-    app.post('/jobs', async(req,res)=>{
+    app.post('/jobs', async (req, res) => {
       const newJob = req.body;
       console.log(newJob);
       const result = await jobsCollection.insertOne(newJob)
@@ -45,7 +45,13 @@ async function run() {
     })
 
     //Bids
-    app.post('/bids', async(req,res)=>{
+    app.get('/bids', async (req, res) => {
+      const cursor = jobsBid.find();
+      const result = await cursor.toArray();
+      res.send(result)
+    })
+
+    app.post('/bids', async (req, res) => {
       const newBid = req.body;
       const result = await jobsBid.insertOne(newBid)
       res.send(result);
@@ -64,10 +70,10 @@ run().catch(console.dir);
 
 
 
-app.get('/',(req,res)=>{
-    res.send('online-marketplaces-server-site')
+app.get('/', (req, res) => {
+  res.send('online-marketplaces-server-site')
 })
 
-app.listen(port,()=>{
-    console.log(`online-marketplaces-server-site is running on port ${port}`);
+app.listen(port, () => {
+  console.log(`online-marketplaces-server-site is running on port ${port}`);
 })
