@@ -29,6 +29,7 @@ async function run() {
     await client.connect();
 
     const jobsCollection = client.db('jobsDB').collection('jobs')
+    const jobsBid = client.db('jobsDB').collection('bids')
 
     app.get('/jobs', async(req,res)=>{
       const cursor = jobsCollection.find();
@@ -40,6 +41,13 @@ async function run() {
       const newJob = req.body;
       console.log(newJob);
       const result = await jobsCollection.insertOne(newJob)
+      res.send(result);
+    })
+
+    //Bids
+    app.post('/bids', async(req,res)=>{
+      const newBid = req.body;
+      const result = await jobsBid.insertOne(newBid)
       res.send(result);
     })
 
