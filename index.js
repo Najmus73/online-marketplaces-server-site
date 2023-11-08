@@ -1,13 +1,20 @@
 const express = require('express');
 const cors = require('cors');
-const { MongoClient, ServerApiVersion,ObjectId } = require('mongodb');
-require('dotenv').config()
+require('dotenv').config();
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const app = express();
 const port = process.env.PORT || 5000;
 
 
 //middleware
-app.use(cors());
+app.use(cors({
+  origin:[
+    'https://online-marketplaces-auth.web.app',
+    'http://localhost:5173',
+    'https://online-marketplaces-auth.firebaseapp.com'
+  ],
+  credentials: true
+}));
 app.use(express.json());
 
 
@@ -39,7 +46,7 @@ async function run() {
 
     app.post('/jobs', async (req, res) => {
       const newJob = req.body;
-      console.log(newJob);
+      // console.log(newJob);
       const result = await jobsCollection.insertOne(newJob)
       res.send(result);
     })
